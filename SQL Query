@@ -1,0 +1,9 @@
+SELECT sum(amount)- (12-(select count(*) 
+FROM (
+    SELECT DATE_PART('month',date) as mnth, count(amount),sum(amount) 
+    FROM transactions 
+    WHERE (amount<0) 
+    GROUP BY DATE_PART('month',date) 
+    HAVING (sum(amount)<=-100 AND count(amount)>2)) as foo)
+    )*5 as balance 
+FROM transactions;
